@@ -1,4 +1,3 @@
-
 local sig, size, path, ext, height, width, emboss, cylinder, deboss, crop, fire, compose, rotate,
 flip, flop, negate, wooden, single_color, bevel, fabric, deep_etch,
 engrave, four_colour, dcolor, foil, geldom, toneontone, background, cropped = ngx.var.arg_sig, ngx.var.arg_size, ngx.var.path, ngx.var.ext,
@@ -26,7 +25,7 @@ local cImages = (ngx.var.arg_images and ngx.var.arg_images or "")
 
 local texts, text, font_size = (ngx.var.arg_texts and ngx.var.arg_texts or ""), (ngx.var.arg_text and ngx.var.arg_text .. "text" or ""), (ngx.var.arg_font_size and ngx.var.arg_font_size or "")
 local area_w, area_h = (ngx.var.arg_area_w and ngx.var.arg_area_w or ""), (ngx.var.arg_area_h and ngx.var.arg_area_h or "")
-local font_size, text_width, text_height, text_composex, text_composey, text_color, text_flip, text_flop, text_rotate, font_family, text_curve, orders = (ngx.var.arg_font_size and ngx.var.arg_font_size or ""), 
+local font_size, text_width, text_height, text_composex, text_composey, text_color, text_flip, text_flop, text_rotate, font_family, text_curve, orders = (ngx.var.arg_font_size and ngx.var.arg_font_size or ""),
 (ngx.var.arg_text_w and ngx.var.arg_text_w or ""),
 (ngx.var.arg_text_h and ngx.var.arg_text_h or ""),
 (ngx.var.arg_text_c_x and ngx.var.arg_text_c_x or ""),
@@ -65,8 +64,8 @@ end
 
 local calculated_sig = calculate_signature(path .. height .. width .. emboss .. cylinder .. deboss .. crop .. fire .. compose .. rotate
 .. flip .. flop .. negate .. wooden .. single_color .. bevel .. fabric .. deep_etch
-.. engrave .. four_colour .. dcolor .. foil .. geldom .. toneontone .. compose_x .. compose_y .. text .. font_size .. area_w .. area_h 
-.. font_size .. text_width .. text_height .. text_composex .. text_composey .. text_color .. text_flip .. text_flop .. text_rotate 
+.. engrave .. four_colour .. dcolor .. foil .. geldom .. toneontone .. compose_x .. compose_y .. text .. font_size .. area_w .. area_h
+.. font_size .. text_width .. text_height .. text_composex .. text_composey .. text_color .. text_flip .. text_flop .. text_rotate
 .. font_family .. texts .. text_curve .. background .. orders .. cropped .. artwork_left .. artwork_top)
 
 if(calculate_signature("obVMC@123") ~= sig) then
@@ -97,7 +96,7 @@ if cImages ~= '' then
 end
 
 function stringToArray (str)
-  
+
   local j = 1
   local arr = {}
 
@@ -105,7 +104,7 @@ function stringToArray (str)
     arr[j] = i
     j = j+1
   end
-  
+
   return arr
 end
 
@@ -152,7 +151,7 @@ texts_a = stringToArray(texts)
 -- local orders = 'i-1'
 function process_img()
     orders_x = stringToArray(orders)
-    for i, v in ipairs(orders_x) do      
+    for i, v in ipairs(orders_x) do
       local tt = explode("-", v) --> {"a", "b", "c"}
       if tt[1] == 't' then
         text(tonumber(tt[2]), imgSrc)
@@ -194,7 +193,7 @@ function text( d )
   local fontF = text_location .. font_family
 
   img:textToImage(ngx.unescape_uri(texts_a[d]), fontF, tonumber(font_size_x[d]), "#"..textColor[d], 1, {tonumber(text_curve_a[d])});
-  
+
   if ngx.var.arg_height and ngx.var.arg_crop ~= "1" then
     img:resize(tonumber(text_width_x[d]), tonumber(text_height_x[d]))
   end
@@ -351,7 +350,7 @@ function text( d )
   --   y_cord = text_height_x[d]+text_compose_y[d] - tonumber(artwork_height)
   -- end
 
-  -- if x_cord ~= 0 or y_cord ~= 0 then 
+  -- if x_cord ~= 0 or y_cord ~= 0 then
   --   img:crop(tonumber(text_width_x[d]), tonumber(text_height_x[d]), -x_cord, -y_cord)
   -- end
 
@@ -379,11 +378,11 @@ function text( d )
     composite_x = x_cord_x+tonumber(cmp_x)
     composite_y = y_cord_x+tonumber(cmp_y)
 
-    if x_cord_x<0 then 
+    if x_cord_x<0 then
       composite_x = tonumber(cmp_x)
     end
 
-    if y_cord_x<0 then 
+    if y_cord_x<0 then
       composite_y = tonumber(cmp_y)
     end
     imgSrc:composite(img, composite_x, composite_y, "SrcOverCompositeOp")
@@ -434,7 +433,7 @@ function image( j )
 
     -- if ngx.var.arg_crop_ then
 
-    
+
     -- end
 
     --image modulate
@@ -491,7 +490,7 @@ function image( j )
       local imageWidth, imageHeight = img:get_width(), img:get_height()
       local HH = imageWidth/4
       local WW = imageHeight
-      
+
       local ratio = imageHeight/imageWidth
       local radius = imageHeight/2
       local wrap = (((imageWidth*100/tonumber(artwork_width)))/2 >0) and ((imageWidth*100/tonumber(artwork_width)))/2 or 35;
@@ -537,7 +536,7 @@ function image( j )
       -- tshirt:resize(tonumber(compose_w),tonumber(compose_h))
 
       local cordinate = width_x[j] .. 'x' .. height_x[j] .. '+' .. cmp_x .. '+' .. cmp_y
-      img:tshirt(imgSrc, "", cordinate, "none", "center", 0, "", 0, 20, 1, 10, 1, 2, "no")    
+      img:tshirt(imgSrc, "", cordinate, "none", "center", 0, "", 0, 20, 1, 10, 1, 2, "no")
     end
 
     if ngx.var.arg_deep_etch then
@@ -580,7 +579,7 @@ function image( j )
       img = imgSrc
     end
 
-    
+
     -- left 100+150>200
     -- top 100+200>200
 
@@ -601,11 +600,11 @@ function image( j )
 
 
     img:crop(tonumber(artwork_width), tonumber(artwork_height), x_cord_x, y_cord_x)
-    
+
     -- negative right side
     -- possitive left side
 
-    if background_a[j] ~= nil and background_a[j] ~= '' then 
+    if background_a[j] ~= nil and background_a[j] ~= '' then
       for i in string.gmatch(background_a[j], '([^-]+)') do
         img:transparent_background(i)
       end
@@ -617,17 +616,17 @@ function image( j )
       imgSrc:composite(img, 0, 0, "SrcOverCompositeOp")
     else
       -- imgSrc:composite(img, tonumber(cmp_x), tonumber(cmp_y), "SrcOverCompositeOp")
-      
+
       local composite_x, composite_y
 
       composite_x = x_cord_x+tonumber(cmp_x)
       composite_y = y_cord_x+tonumber(cmp_y)
 
-      if x_cord_x<0 then 
+      if x_cord_x<0 then
         composite_x = tonumber(cmp_x)
       end
 
-      if y_cord_x<0 then 
+      if y_cord_x<0 then
         composite_y = tonumber(cmp_y)
       end
 
@@ -706,7 +705,7 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 
 --     -- if ngx.var.arg_crop_ then
 
-    
+
 --     -- end
 
 --     --image modulate
@@ -787,7 +786,7 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 --       -- tshirt:resize(tonumber(compose_w),tonumber(compose_h))
 
 --       local cordinate = width_x[j] .. 'x' .. height_x[j] .. '+' .. cmp_x .. '+' .. cmp_y
---       img:tshirt(imgSrc, "", cordinate, "none", "center", 0, "", 0, 20, 1, 10, 1, 2, "no")    
+--       img:tshirt(imgSrc, "", cordinate, "none", "center", 0, "", 0, 20, 1, 10, 1, 2, "no")
 --     end
 
 --     if ngx.var.arg_deep_etch then
@@ -839,11 +838,11 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 --       y_cord = height_x[j]+images_y[j] - tonumber(artwork_height)
 --     end
 
---     if x_cord ~= 0 or y_cord ~= 0 then 
+--     if x_cord ~= 0 or y_cord ~= 0 then
 --       img:crop(tonumber(width_x[j]), tonumber(height_x[j]), -x_cord, -y_cord)
 --     end
 
---     if background_a[j] ~= nil and background_a[j] ~= '' then 
+--     if background_a[j] ~= nil and background_a[j] ~= '' then
 --       for i in string.gmatch(background_a[j], '([^-]+)') do
 --         img:transparent_background(i)
 --       end
@@ -870,7 +869,7 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 -- if multiText ~= nil then
 --   -- for text
 --   if texts then
-    
+
 --     local area_w_x, area_h_x, font_size_x, text_width_x, text_height_x, text_compose_x, text_compose_y, textColor = {}, {}, {}, {}, {}, {}, {}, {}
 --     local textsList, text_flip_a, text_flop_a = {}, {}, {}
 --     local d = 1
@@ -887,7 +886,7 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 --     text_flop_a = stringToArray(text_flop)
 --     text_rotate_a = stringToArray(text_rotate)
 --     text_curve_a = stringToArray(text_curve)
-    
+
 
 
 --     for i in string.gmatch(texts, '([^,]+)') do
@@ -897,7 +896,7 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 --       local fontF = text_location .. font_family
 
 --       img:textToImage(ngx.unescape_uri(i), fontF, tonumber(font_size_x[d]), "#"..textColor[d], 1, {tonumber(text_curve_a[d])});
-      
+
 --       if ngx.var.arg_height and ngx.var.arg_crop ~= "1" then
 --         img:resize(tonumber(text_width_x[d]), tonumber(text_height_x[d]))
 --       end
@@ -1051,10 +1050,10 @@ ngx.exec(ngx.var.request_uri .. '&image=' .. calculated_sig)
 --         y_cord = text_height_x[d]+text_compose_y[d] - tonumber(artwork_height)
 --       end
 
---       if x_cord ~= 0 or y_cord ~= 0 then 
+--       if x_cord ~= 0 or y_cord ~= 0 then
 --         img:crop(tonumber(text_width_x[d]), tonumber(text_height_x[d]), -x_cord, -y_cord)
 --       end
-      
+
 --       textsList[d] = img
 --       d = d+1
 --     end
